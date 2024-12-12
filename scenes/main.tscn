@@ -1,28 +1,69 @@
-[gd_scene load_steps=3 format=3 uid="uid://bp0mo1j6ivv7w"]
+[gd_scene load_steps=7 format=3 uid="uid://bp0mo1j6ivv7w"]
 
+[ext_resource type="Texture2D" uid="uid://45tjestdpc2l" path="res://icon.svg" id="1_c6qf2"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_wwlr0"]
 [ext_resource type="PackedScene" uid="uid://tflmwvrnq2hg" path="res://scenes/player.tscn" id="1_y8nf2"]
+[ext_resource type="PackedScene" uid="uid://b2qppy8usb6xw" path="res://scenes/ball.tscn" id="2_l0xie"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8jac0"]
-size = Vector2(40, 40)
+[sub_resource type="BoxMesh" id="BoxMesh_e3yvu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_577yy"]
+size = Vector2(3727.87, 64)
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_wwlr0")
 
 [node name="world" type="Node2D" parent="."]
 
 [node name="stage" type="Node2D" parent="world"]
 
 [node name="ground" type="StaticBody2D" parent="world/stage"]
-position = Vector2(196, 430)
-scale = Vector2(20, 2)
 
-[node name="ColorRect" type="ColorRect" parent="world/stage/ground"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MeshInstance2D" type="MeshInstance2D" parent="world/stage/ground"]
+position = Vector2(576, 440)
+scale = Vector2(1152, 64)
+mesh = SubResource("BoxMesh_e3yvu")
+texture = ExtResource("1_c6qf2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="world/stage/ground"]
-position = Vector2(20, 20)
-rotation = 1.5708
-shape = SubResource("RectangleShape2D_8jac0")
+position = Vector2(576, 440)
+shape = SubResource("RectangleShape2D_577yy")
+
+[node name="cliff" type="StaticBody2D" parent="world/stage"]
+position = Vector2(800, 136)
+rotation = -0.785397
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="world/stage/cliff"]
+position = Vector2(1863.9, 440)
+scale = Vector2(3727.79, 64)
+mesh = SubResource("BoxMesh_e3yvu")
+texture = ExtResource("1_c6qf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="world/stage/cliff"]
+position = Vector2(1863.93, 440)
+shape = SubResource("RectangleShape2D_577yy")
+
+[node name="stoppingwall" type="StaticBody2D" parent="world/stage"]
+position = Vector2(-464, 992)
+rotation = -1.57079
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="world/stage/stoppingwall"]
+position = Vector2(576, 440)
+scale = Vector2(1152, 64)
+mesh = SubResource("BoxMesh_e3yvu")
+texture = ExtResource("1_c6qf2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="world/stage/stoppingwall"]
+position = Vector2(576, 440)
+shape = SubResource("RectangleShape2D_577yy")
 
 [node name="player" parent="world" instance=ExtResource("1_y8nf2")]
 position = Vector2(583, 351)
+
+[node name="Camera2D" type="Camera2D" parent="world/player"]
+position = Vector2(0, -133)
+zoom = Vector2(1.5, 1.5)
+
+[node name="ball" parent="world" instance=ExtResource("2_l0xie")]
+position = Vector2(712, 296)
+mass = 10.0
